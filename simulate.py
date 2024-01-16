@@ -13,7 +13,11 @@ with mujoco.viewer.launch_passive(m, d) as viewer:
     viewer.cam.lookat[1] = 0.0  # Y-coordinate of the target position
     viewer.cam.lookat[2] = 0.75  # Z-coordinate of the target position
 
-    for i in range(1000):
+    for i in range(10000):
+        motor_names = ["arm1", "arm2", "leg"]
+        for motor in motor_names:
+            i = dm_control.mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, motor)
+            d.ctrl[i] = 1.0
 
         dm_control.mujoco.mj_step(m, d)
         viewer.sync()
